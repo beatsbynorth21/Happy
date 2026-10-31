@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happiness Amaka · Virtual Assistant</title>
+<style>
+:root{--bg:#fbf6f1;--card:#fff;--ink:#2a1f2d;--mute:#6f6272;--accent:#c2410c;--soft:#fde7d8;--line:#eadfd6;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1420;--card:#261c2c;--ink:#f6ede6;--mute:#b8a8bb;--accent:#fb923c;--soft:#3a2a3a;--line:#3a2d40;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#1b1420;--card:#261c2c;--ink:#f6ede6;--mute:#b8a8bb;--accent:#fb923c;--soft:#3a2a3a;--line:#3a2d40;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'DM Sans',system-ui,-apple-system,sans-serif;line-height:1.6}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;line-height:1.15;margin:0}
+.wrap{max-width:720px;margin:0 auto;padding:0 20px}
+section{padding:44px 0}
+.eyebrow{color:var(--accent);font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:.78rem}
+.hero{padding:56px 0 40px}
+.hero h1{font-size:clamp(2.2rem,9vw,3.4rem);margin:10px 0 14px}
+.hero p{color:var(--mute);font-size:1.08rem;max-width:34em}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.btn{display:inline-block;padding:12px 20px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--accent);color:var(--accent)}
+.btn.pri{background:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.btn.pri{color:#1b1420}}
+h2{font-size:1.7rem;margin-bottom:14px}
+.grid{display:grid;gap:12px}
+@media(min-width:560px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.card h3{font-size:1.1rem;margin-bottom:6px}
+.card p{margin:0;color:var(--mute);font-size:.95rem}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tag{background:var(--soft);padding:6px 14px;border-radius:999px;font-size:.9rem}
+.note{color:var(--mute);font-size:.92rem;margin-top:12px}
+.contact a.row{display:flex;justify-content:space-between;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);color:var(--ink);text-decoration:none;word-break:break-all}
+.contact a.row span:first-child{color:var(--mute)}
+.tabs{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:14px}
+.tab{flex:none;font:inherit;font-weight:600;font-size:.9rem;padding:9px 16px;border-radius:999px;border:1.5px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tab[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+@media (prefers-color-scheme:dark){.tab[aria-selected=true]{color:#1b1420}}
+.panel{display:none;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;animation:pop .35s ease}
+.panel.on{display:block}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.brief{font-size:.85rem;color:var(--mute);margin:0 0 14px}
+.brief b{color:var(--accent)}
+.bub{max-width:92%;padding:11px 14px;border-radius:16px;margin:8px 0;font-size:.93rem}
+.bub.in{background:var(--soft);border-bottom-left-radius:4px}
+.bub.out{background:var(--accent);color:#fff;margin-left:auto;border-bottom-right-radius:4px}
+@media (prefers-color-scheme:dark){.bub.out{color:#1b1420}}
+.bub small{display:block;opacity:.7;margin-bottom:3px;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em}
+.tl{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px solid var(--line)}
+.tl li{position:relative;padding:0 0 14px 16px;font-size:.93rem}
+.tl li::before{content:"";position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:var(--accent)}
+.tl b{display:block;font-size:.78rem;color:var(--accent)}
+.days{display:grid;gap:8px;grid-template-columns:repeat(2,1fr)}
+@media(min-width:560px){.days{grid-template-columns:repeat(4,1fr)}}
+.day{background:var(--soft);border-radius:12px;padding:10px;font-size:.85rem}
+.day b{display:block;color:var(--accent);font-size:.78rem;margin-bottom:2px}
+.rs{width:100%;border-collapse:collapse;font-size:.88rem}
+.rs th,.rs td{text-align:left;padding:9px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+.rs th{color:var(--mute);font-weight:600;font-size:.78rem;text-transform:uppercase}
+.scroll{overflow-x:auto}
+.pick{margin-top:12px;background:var(--soft);padding:10px 14px;border-radius:12px;font-size:.9rem}
+footer{padding:28px 0 40px;text-align:center;color:var(--mute);font-size:.85rem}
+</style>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌷</text></svg>">
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<div class="eyebrow">Virtual Assistant</div>
+<h1>Hi, I’m Happiness Amaka.</h1>
+<p>I’m a new virtual assistant who takes the small, important tasks off your plate so you can focus on what matters. I’m organised, reliable, and I learn fast.</p>
+<div class="btns"><a class="btn pri" href="#contact">Work with me</a><a class="btn" href="#samples">See sample work</a></div>
+</header>
+
+<section id="about">
+<h2>About me</h2>
+<p>I’ve just started my VA journey, and I’m putting real effort into learning the tools and habits that make a great assistant. I take instructions seriously, ask questions when I’m unsure, and I care about getting things right. If you’re looking for someone who is eager, honest, and ready to grow with your business, I’d love to help.</p>
+</section>
+
+<section id="services">
+<h2>How I can help</h2>
+<div class="grid">
+<div class="card"><h3>Admin Support</h3><p>Organising files, data entry, document formatting and keeping your day tidy.</p></div>
+<div class="card"><h3>Email &amp; Inbox</h3><p>Sorting messages, drafting replies and flagging what needs your attention.</p></div>
+<div class="card"><h3>Scheduling</h3><p>Managing your calendar, booking appointments and sending reminders.</p></div>
+<div class="card"><h3>Social Media Support</h3><p>Posting, replying to comments and keeping your pages active and consistent.</p></div>
+<div class="card"><h3>Customer Support</h3><p>Answering enquiries politely and quickly through chat or email.</p></div>
+<div class="card"><h3>Research</h3><p>Finding information, comparing options and summarising it clearly.</p></div>
+</div>
+</section>
+
+<section id="samples">
+<h2>Sample work</h2>
+<p class="note" style="margin:0 0 14px">I’m just starting out, so these are practice tasks I created to show how I think and work. Tap through them.</p>
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" aria-selected="true" data-t="p1">✉️ Inbox</button>
+<button class="tab" role="tab" aria-selected="false" data-t="p2">🗓️ Schedule</button>
+<button class="tab" role="tab" aria-selected="false" data-t="p3">📱 Content plan</button>
+<button class="tab" role="tab" aria-selected="false" data-t="p4">🔎 Research</button>
+</div>
+
+<div class="panel on" id="p1">
+<p class="brief"><b>The task:</b> A client is stressed and needs a polite, clear reply fast.</p>
+<div class="bub in"><small>Client</small>Hi, I missed the call today and I need to move my Thursday meeting. Can you sort it? Also, did the invoice go out?</div>
+<div class="bub out"><small>My reply</small>Hello! No worries at all. I’ve moved your Thursday meeting to Friday at 10:00 AM and sent the invite. Your invoice went out this morning, so I’ve attached a copy for your records. Is there anything else you’d like me to handle today?</div>
+<p class="note">What I focused on: answering every question, giving a clear next step, and staying warm but brief.</p>
+</div>
+
+<div class="panel" id="p2">
+<p class="brief"><b>The task:</b> Turn a busy, messy day into a plan that actually fits.</p>
+<ul class="tl">
+<li><b>8:30 AM</b>Inbox sweep: reply, file or flag everything</li>
+<li><b>10:00 AM</b>Client call (reminder sent 30 min before)</li>
+<li><b>11:00 AM</b>Update the weekly tracker with call notes</li>
+<li><b>1:00 PM</b>Break. Protected, not bookable</li>
+<li><b>2:00 PM</b>Draft two social posts for approval</li>
+<li><b>4:30 PM</b>End-of-day summary sent to the client</li>
+</ul>
+<p class="note">What I focused on: buffers between tasks, protected breaks, and a daily summary so nothing is a surprise.</p>
+</div>
+
+<div class="panel" id="p3">
+<p class="brief"><b>The task:</b> Plan one week of posts for a small candle brand (made-up client).</p>
+<div class="days">
+<div class="day"><b>MON</b>Behind the scenes: pouring day</div>
+<div class="day"><b>TUE</b>Customer review spotlight</div>
+<div class="day"><b>WED</b>Poll: which scent next?</div>
+<div class="day"><b>THU</b>Short video: wick trimming tips</div>
+<div class="day"><b>FRI</b>New scent teaser</div>
+<div class="day"><b>SAT</b>Weekend giveaway</div>
+<div class="day"><b>SUN</b>Rest day + reply to comments</div>
+<div class="day"><b>✓</b>Captions + hashtags ready</div>
+</div>
+<p class="note">What I focused on: a mix of behind-the-scenes, value and engagement so the page isn’t only selling.</p>
+</div>
+
+<div class="panel" id="p4">
+<p class="brief"><b>The task:</b> Find a quiet, laptop-friendly spot for a client meeting (sample data).</p>
+<div class="scroll"><table class="rs">
+<tr><th>Option</th><th>Wi-Fi</th><th>Noise</th><th>Budget</th></tr>
+<tr><td>Café A</td><td>Fast</td><td>Quiet</td><td>Medium</td></tr>
+<tr><td>Café B</td><td>Okay</td><td>Loud</td><td>Low</td></tr>
+<tr><td>Co-working C</td><td>Fast</td><td>Very quiet</td><td>High</td></tr>
+</table></div>
+<div class="pick"><b>My pick:</b> Café A. It balances speed, quiet and cost. Co-working C is the backup if the meeting runs long.</div>
+<p class="note">What I focused on: comparing options side by side, then giving a clear recommendation instead of a pile of links.</p>
+</div>
+</section>
+
+<section id="skills">
+<h2>Skills &amp; tools</h2>
+<div class="tags">
+<span class="tag">Clear communication</span><span class="tag">Time management</span><span class="tag">Attention to detail</span><span class="tag">Fast learner</span><span class="tag">Google Workspace</span><span class="tag">WhatsApp &amp; Email</span><span class="tag">Social media</span>
+</div>
+<p class="note">Still building my toolkit every week, and happy to learn the tools you already use.</p>
+</section>
+
+<section id="why">
+<h2>Why work with me</h2>
+<div class="grid">
+<div class="card"><h3>Willing to learn</h3><p>Show me how you like things done and I’ll pick it up quickly.</p></div>
+<div class="card"><h3>Reliable</h3><p>I respect deadlines and keep you updated along the way.</p></div>
+<div class="card"><h3>Honest</h3><p>If I don’t know something, I’ll say so and find the answer.</p></div>
+<div class="card"><h3>Friendly</h3><p>Polite, respectful and easy to work with.</p></div>
+</div>
+</section>
+
+<section id="contact" class="contact">
+<h2>Let’s work together</h2>
+<p style="color:var(--mute);margin:0 0 8px">Send me a message and tell me what you need help with.</p>
+<a class="row" href="mailto:danielhappiness501@gmail.com"><span>Email</span><span>danielhappiness501@gmail.com</span></a>
+<a class="row" href="https://wa.me/2349076653624"><span>WhatsApp</span><span>0907 665 3624</span></a>
+<a class="row" href="tel:+2349076653624"><span>Call</span><span>0907 665 3624</span></a>
+<a class="row" href="https://instagram.com/uni.quepexuliar8"><span>Instagram</span><span>@uni.quepexuliar8</span></a>
+<a class="row" href="https://tiktok.com/@jstpeculiar08"><span>TikTok</span><span>@jstpeculiar08</span></a>
+</section>
+</div>
+<footer>© 2026 Happiness Amaka</footer>
+<script>
+var tabs=document.querySelectorAll('.tab');
+tabs.forEach(function(t){t.addEventListener('click',function(){
+tabs.forEach(function(x){x.setAttribute('aria-selected',x===t?'true':'false')});
+document.querySelectorAll('.panel').forEach(function(p){p.classList.toggle('on',p.id===t.dataset.t)});
+})});
+</script>
+</body>
+</html>
